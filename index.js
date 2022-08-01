@@ -101,6 +101,24 @@ console.log(result);
   });
 
 
+  app.put("/movies/:id", async function (request, response) {
+    const { id } = request.params;
+    console.log (request.params, id);
+    const data = request.body;
+    // const movie = movies.find ((mv) => mv.id ===id);
+    // console.log(movie);
+
+    const result = await client
+    .db("movieslist")
+    .collection("movies")
+    .updateOne({ id: id }, {$set: data });
+
+
+    result.modifiedCount > 0
+    ? response.send({ msg: "movie successfully updated" })
+    :response.status( 400 ).send({ msg : "movie not updated" });
+  });
+
 
 
 app.listen(PORT, () => console.log(`App is started in ${PORT}`));
